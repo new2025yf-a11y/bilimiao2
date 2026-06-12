@@ -32,8 +32,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: |
-        ./gradlew -Pchannel=Github app:assembleFullRelease
-        ./gradlew app:assembleFossRelease
+        ./gradlew -Pchannel=Github app:assembleFullDebug
+        ./gradlew app:assembleFossDebug
     - name: Move apk to release
       run: |
         release_dir=${{ github.workspace }}/release
