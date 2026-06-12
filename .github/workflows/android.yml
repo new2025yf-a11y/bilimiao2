@@ -1,40 +1,54 @@
 name: Android CI
 
 on:
+
   workflow_dispatch:
+
   push:
+
     tags:
+
       - "2.*"
 
 jobs:
+
   build:
+
     runs-on: ubuntu-latest
 
     steps:
+
     - uses: actions/checkout@v3
+
     - name: set up JDK 17
+
       uses: actions/setup-java@v3
+
       with:
+
         java-version: '17'
+
         distribution: 'temurin'
+
         cache: gradle
 
     - name: Grant execute permission for gradlew
+
       run: chmod +x gradlew
 
-    - name: Build Debug APKs
+    - name: Build with Gradle
+
       run: |
         ./gradlew -Pchannel=Github app:assembleFullDebug
+
         ./gradlew app:assembleFossDebug
 
-    - name: Upload Full Debug APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: bilimiao-full-debug
-        path: app/build/outputs/apk/full/debug/app-full-debug.apk
+    - name: Upload APK as artifact
 
-    - name: Upload Foss Debug APK
       uses: actions/upload-artifact@v4
+
       with:
-        name: bilimiao-foss-debug
-        path: app/build/outputs/apk/foss/debug/app-foss-debug.apk
+
+        name: bilimiao-apks
+
+        path: app/build/outputs/apk/**/*.apk
